@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import openSockt from 'socket.io-client';
 
 class App extends Component {
+
+  componentDidMount() {
+    this.socket = openSockt('http://localhost:5000');
+    this.socket.on('test', val => console.log(val));
+    this.socket.emit('backtest');
+  }
+
   render() {
     return (
       <div className="App">
