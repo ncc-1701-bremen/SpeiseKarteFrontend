@@ -4,6 +4,7 @@ import './App.css';
 import openSocket from 'socket.io-client';
 import Login from './components/Login.js';
 import Speisekarte from './components/Speisekarte.js';
+import jssha from 'jssha';
 
 class App extends Component {
   constructor() {
@@ -110,11 +111,12 @@ class App extends Component {
     return parameterArray;
   }
 
-  authenticateSocket = (password) => {
+  authenticateSocket = (user, password) => {
     this.socket = openSocket('http://localhost:5000/authenticate');
     this.socket.on('connect', function(){
-      this.socket.emit('authentication', {username: "John", password: "password"});
-      this.socket.on('authenticated', function() {
+      this.socket.emit('authentication', {username: user, password: password});
+      this.socket.on('authenticated', function(data) {
+        console.log(data);
         // use the socket as usual
       });
       this.socket.on('test', (data) => console.log(data))
@@ -128,13 +130,22 @@ class App extends Component {
     }.bind(this));
   }
 
+  onAuth = (e) => {
+    e.preventDefault();
+    const username =  e.target.username.value;
+    const password =  e.target.password.value;
+    const jsShaObj =  new jssha('SHA-256', 'TEXT');
+    jsShaObj.update(this.state.salt + password);
+    this.authenticateSocket(username, jsShaObj.getHash('HEX'));
+  }
+
   render() {
     return (
       <div>
         <h1>APP</h1>
         {this.state.loggedIn ?
           <Speisekarte data={this.state.data}/>
-          : <Login/>
+          : <Login onAuth={this.onAuth}/>
         }
       </div>
     );

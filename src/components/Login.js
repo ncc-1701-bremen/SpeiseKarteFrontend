@@ -29,7 +29,7 @@ class Login extends Component {
     return (
       <div>
         <h2>Login</h2>
-        <form name="form" onSubmit={this.handleSubmit}>
+        <form name="form" onSubmit={this.props.onAuth}>
             <div>
                 <label htmlFor="username">Username</label>
                 <input type="text" className="form-control" name="username" value={username} onChange={this.handleChange} />
