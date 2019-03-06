@@ -11,6 +11,7 @@ class App extends Component {
     super();
     this.state = {
       loggedIn: this.getUrlParameters()[0] !== 'authenticate',
+      editingMode: this.getUrlParameters()[2] !== 'editor',
       salt: "df78af8787h4jfmlkksd9s",
       data: {
         swipeTimer: 10,
@@ -142,7 +143,6 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1>APP</h1>
         {this.state.loggedIn ?
           <Speisekarte data={this.state.data}/>
           : <Login onAuth={this.onAuth}/>

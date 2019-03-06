@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Sidepicture from './Sidepicture.js';
-import Menue from './Menue.js';
+import Page from './Page';
 
 class Speisekarte extends Component {
 
@@ -8,9 +7,13 @@ class Speisekarte extends Component {
     console.log(this.props.data)
     return (
       <div>
-        <h2>Speisekarte</h2>
-        <Sidepicture/>
-        <Menue/>
+          {
+              this.props.data.pages.map(page => {
+                  return(
+                      <Page key={page} pageData={this.props.data.pageInfos[page]}/>
+                  )
+              })
+          }
       </div>
     )
   }
