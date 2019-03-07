@@ -5,11 +5,10 @@ import Sidepicture from './Sidepicture';
 class Page extends Component {
 
     render() {
-        console.log(this.props)
         return (
-            <div className="page">
-                {this.props.pageData.sidePicture && <Sidepicture/>}
-                <Content components={this.props.pageData.components} componentData={this.props.pageData.componentInfos}/>
+            <div className="page" style={this.props.editingMode ? {width: "80vw"} : {}}>
+                {this.props.pageData.sidePicture && <Sidepicture editingMode={this.props.editingMode}/>}
+                <Content components={this.props.pageData.components} componentData={this.props.pageData.componentInfos} editingMode={this.props.editingMode}/>
             </div>
         )
     }
