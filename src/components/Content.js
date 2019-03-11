@@ -2,11 +2,26 @@ import React, { Component } from 'react';
 import ComponentLibrary from './ComponentLibrary';
 
 class Content extends Component {
+  dragStart = (event) => {
+      event.dataTransfer.setData('Text/html', event.target.id);
+  }
+
+    onDropTrig = (event) => {
+          event.preventDefault();
+          const droppedElementArr = event.dataTransfer.getData("text/html").split('::')
+          if(droppedElementArr[0] === 'creating') {
+            console.log('should create')
+          }
+    }
+
+    preventDefault = (event) => {
+           event.preventDefault();
+    }
 
   render() {
 
     return (
-      <div className="content" style={this.props.editingMode ? {width: '65vw'} : {}}>
+      <div className="content" style={this.props.editingMode ? {width: '65vw'} : {}} onDrop={this.onDropTrig} onDragOver={this.preventDefault}>
           {
               this.props.components.map(component => {
                 const componentData = this.props.componentData[component];
@@ -14,9 +29,9 @@ class Content extends Component {
                 const { editingMode } = this.props;
 
                 return (
-                    <div className={"component" + (editingMode ? " edit" : "")}
+                    <div id={"existing::" + component} className={"component" + (editingMode ? " edit" : "")}
                          style={{width: componentData.data.size.width + "%", height: componentData.data.size.height + "%"}}
-                         draggable={editingMode} key={component}>
+                         draggable={editingMode} key={component} onDragStart={this.dragStart}>
                         <CurrentComponent key={component} componentData={componentData}/>
                     </div>
                 )
