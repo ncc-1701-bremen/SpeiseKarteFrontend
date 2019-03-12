@@ -112,6 +112,7 @@ class App extends Component {
     }
   }
 
+  // Get the URL and split them by slashes in order to get the url parameters
   getUrlParameters = () => {
     const rawUrl = window.location.href.split('//');
     const parameterArray = rawUrl[1].split('/');
@@ -119,6 +120,7 @@ class App extends Component {
     return parameterArray;
   }
 
+  // Backend Connection functions
   authenticateSocket = (user, password) => {
     this.socket = openSocket('http://localhost:5000/authenticate');
     this.socket.on('connect', function(){
@@ -138,6 +140,7 @@ class App extends Component {
     }.bind(this));
   }
 
+  // Login function
   onAuth = (e) => {
     e.preventDefault();
     const username =  e.target.username.value;
@@ -147,6 +150,7 @@ class App extends Component {
     this.authenticateSocket(username, jsShaObj.getHash('HEX'));
   }
 
+  // Functions for creation and deletition of components and pages
   createNewComponent = (componentType, page) => {
     const save = this.state.data;
     const lastComponentNr = save.pageInfos[page].components[save.pageInfos[page].components.length-1].slice(-1);
@@ -167,11 +171,23 @@ class App extends Component {
   }
 
   createNewPage = () => {
-
+      const save = this.state.data;
+      const lastPageNr = save.pages[save.pages.length-1].slice(-1);
+      const newPageName = "page" + (Number(lastPageNr) + 1);
+      save.pageInfos[page].components.push(newPageName);
+      // TODO: Change to default Json page infos as default
+      save.pageInfos[newPageName] = save.pageInfos.page1;
+      this.setState({data: save});
   }
 
-  deleteOldPage = () => {
-
+  deleteOldPage = (page) => {
+      const save = this.state.data;
+      const indexOfElem = save.pages.indexOf(page);
+      if (indexOfElem >= 0) {
+          save.pages.splice(indexOfElem, 1);
+          delete save.pageInfos[page];
+          this.setState({data: save});
+      }
   }
 
   render() {

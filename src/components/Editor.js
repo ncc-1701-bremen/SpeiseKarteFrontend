@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import defaultComponents from './componentDefaults.json';
 
 class Editor extends Component {
+    // Delete Components on drop
     onDropTrig = (event) => {
         event.preventDefault();
         const droppedElementArr = event.dataTransfer.getData("text/html").split('::');
@@ -10,10 +11,12 @@ class Editor extends Component {
         }
     }
 
+    // Transfer information when an element is dragged
     dragStart = (event) => {
         event.dataTransfer.setData('Text/html', event.target.id);
     }
 
+    // We need to prevent the default behaviour of some drag events
     preventDefault = (event) => {
         event.preventDefault();
     }

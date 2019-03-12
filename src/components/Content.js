@@ -6,16 +6,17 @@ class Content extends Component {
       event.dataTransfer.setData('Text/html', event.target.id);
   }
 
-    onDropTrig = (event) => {
-          event.preventDefault();
-          const droppedElementArr = event.dataTransfer.getData("text/html").split('::');
-          if(droppedElementArr[0] === 'creating') {
-            this.props.createComponent(droppedElementArr[1], this.props.page);
-          }
-    }
+   // Create new components when the component type is dropped into the content area
+   onDropTrig = (event) => {
+      event.preventDefault();
+      const droppedElementArr = event.dataTransfer.getData("text/html").split('::');
+      if(droppedElementArr[0] === 'creating') {
+          this.props.createComponent(droppedElementArr[1], this.props.page);
+      }
+   }
 
     preventDefault = (event) => {
-           event.preventDefault();
+      event.preventDefault();
     }
 
   render() {
