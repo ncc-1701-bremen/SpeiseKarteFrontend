@@ -11,12 +11,13 @@ class Speisekarte extends Component {
               {
                   this.props.data.pages.map(page => {
                       return(
-                          <Page key={page} pageData={this.props.data.pageInfos[page]} editingMode={this.props.editingMode}/>
+                          <Page key={page} pageData={this.props.data.pageInfos[page]} editingMode={this.props.editingMode}
+                                page={page} genFunctions={this.props.genFunctions}/>
                       )
                   })
               }
           </div>
-          {this.props.editingMode && <Editor/>}
+          {this.props.editingMode && <Editor genFunctions={this.props.genFunctions}/>}
       </div>
     )
   }

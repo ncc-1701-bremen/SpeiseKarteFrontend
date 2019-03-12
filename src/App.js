@@ -5,6 +5,7 @@ import openSocket from 'socket.io-client';
 import Login from './components/Login.js';
 import Speisekarte from './components/Speisekarte.js';
 import jssha from 'jssha';
+import componentDefaults from './components/componentDefaults';
 
 class App extends Component {
   constructor() {
@@ -89,7 +90,13 @@ class App extends Component {
           }
         }
       }
+    }
 
+    this.genFunctions = {
+      createComponent: this.createNewComponent,
+      deleteComponent: this.deleteOldComponent,
+      createPage: this.createNewPage,
+      deletePage: this.deleteOldPage
     }
   }
 
@@ -140,11 +147,38 @@ class App extends Component {
     this.authenticateSocket(username, jsShaObj.getHash('HEX'));
   }
 
+  createNewComponent = (componentType, page) => {
+    const save = this.state.data;
+    const lastComponentNr = save.pageInfos[page].components[save.pageInfos[page].components.length-1].slice(-1);
+    const newComponentName = "component" + (Number(lastComponentNr) + 1);
+    save.pageInfos[page].components.push(newComponentName);
+    save.pageInfos[page].componentInfos[newComponentName] = componentDefaults[componentType];
+    this.setState({data: save});
+  }
+
+  deleteOldComponent = (component, page) => {
+    const save = this.state.data;
+    const indexOfElem = save.pageInfos[page].components.indexOf(component);
+    if (indexOfElem >= 0) {
+        save.pageInfos[page].components.splice(indexOfElem, 1);
+        delete save.pageInfos[page].componentInfos[component];
+        this.setState({data: save});
+    }
+  }
+
+  createNewPage = () => {
+
+  }
+
+  deleteOldPage = () => {
+
+  }
+
   render() {
     return (
       <div>
         {this.state.loggedIn ?
-          <Speisekarte data={this.state.data} editingMode={this.state.editingMode}/>
+          <Speisekarte data={this.state.data} editingMode={this.state.editingMode} genFunctions={this.genFunctions}/>
           : <Login onAuth={this.onAuth}/>
         }
       </div>

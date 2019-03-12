@@ -4,9 +4,9 @@ import defaultComponents from './componentDefaults.json';
 class Editor extends Component {
     onDropTrig = (event) => {
         event.preventDefault();
-        const droppedElementArr = event.dataTransfer.getData("text/html").split('::')
+        const droppedElementArr = event.dataTransfer.getData("text/html").split('::');
         if(droppedElementArr[0] === 'existing') {
-            console.log('should delete')
+            this.props.genFunctions.deleteComponent(droppedElementArr[2], droppedElementArr[1]);
         }
     }
 

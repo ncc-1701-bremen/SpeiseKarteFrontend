@@ -8,9 +8,9 @@ class Content extends Component {
 
     onDropTrig = (event) => {
           event.preventDefault();
-          const droppedElementArr = event.dataTransfer.getData("text/html").split('::')
+          const droppedElementArr = event.dataTransfer.getData("text/html").split('::');
           if(droppedElementArr[0] === 'creating') {
-            console.log('should create')
+            this.props.createComponent(droppedElementArr[1], this.props.page);
           }
     }
 
@@ -29,7 +29,7 @@ class Content extends Component {
                 const { editingMode } = this.props;
 
                 return (
-                    <div id={"existing::" + component} className={"component" + (editingMode ? " edit" : "")}
+                    <div id={`existing::${this.props.page}::${component}`} className={"component" + (editingMode ? " edit" : "")}
                          style={{width: componentData.data.size.width + "%", height: componentData.data.size.height + "%"}}
                          draggable={editingMode} key={component} onDragStart={this.dragStart}>
                         <CurrentComponent key={component} componentData={componentData}/>
