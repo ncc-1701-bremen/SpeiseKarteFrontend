@@ -5,7 +5,6 @@
 
 body, div {
   box-sizing: border-box;
-  overflow-y: hidden;
 }
 
 .page {
@@ -14,12 +13,19 @@ body, div {
   flex-wrap: wrap;
   width: 100vw;
   height: 100vh;
+  transition: 0.2s;
+}
+
+.pages {
+  display: flex;
+  align-items: center;
 }
 
 .karte-wrapper {
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
+  overflow: hidden;
 }
 
 .side-picture{
@@ -49,6 +55,9 @@ body, div {
   width: 20vw;
   box-sizing: border-box;
   border-left: 1px solid black;
+  position: absolute;
+  right: 0;
+  background: white;
 }
 
 .edit {

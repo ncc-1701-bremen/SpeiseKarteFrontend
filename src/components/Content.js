@@ -4,6 +4,7 @@ import ComponentLibrary from './ComponentLibrary';
 class Content extends Component {
   dragStart = (event) => {
       event.dataTransfer.setData('Text/html', event.target.id);
+      this.props.setComponentDrag(true);
   }
 
    // Create new components when the component type is dropped into the content area
@@ -13,6 +14,7 @@ class Content extends Component {
       if(droppedElementArr[0] === 'creating') {
           this.props.createComponent(droppedElementArr[1], this.props.page);
       }
+       this.props.setComponentDrag(false);
    }
 
     preventDefault = (event) => {

@@ -9,6 +9,7 @@ class Editor extends Component {
         if(droppedElementArr[0] === 'existing') {
             this.props.genFunctions.deleteComponent(droppedElementArr[2], droppedElementArr[1]);
         }
+        this.props.setComponentDrag(false);
     }
 
     // Transfer information when an element is dragged
