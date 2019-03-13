@@ -153,7 +153,8 @@ class App extends Component {
   // Functions for creation and deletition of components and pages
   createNewComponent = (componentType, page) => {
     const save = this.state.data;
-    const lastComponentNr = save.pageInfos[page].components[save.pageInfos[page].components.length-1].slice(-1);
+    const latestComponent = save.pageInfos[page].components[save.pageInfos[page].components.length-1]
+    const lastComponentNr = latestComponent ? latestComponent.slice(-1) : 0;
     const newComponentName = "component" + (Number(lastComponentNr) + 1);
     save.pageInfos[page].components.push(newComponentName);
     save.pageInfos[page].componentInfos[newComponentName] = componentDefaults[componentType];
