@@ -30,6 +30,7 @@ body, div {
 
 .side-picture{
   box-sizing: border-box;
+  overflow: hidden;
   width: 20vw;
   height: 100vh;
 }
