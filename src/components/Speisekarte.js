@@ -19,9 +19,11 @@ class Speisekarte extends Component {
   }
 
   // On the swipe end the position is anchored accordingly to the index
-  moveEnde = (realPos, viewPort) => {
+  moveEnde = () => {
     if(!this.activateDrag) {
-      cancelAnimationFrame(this.swipeEndAnimation);
+      const realPos = this.timerMovement;
+      const viewPort = this.viewPort;
+      this.swipeEndAnimation = null;
       let newIndex = this.state.index;
 
       // Set the new index according to the relative movement
@@ -45,6 +47,8 @@ class Speisekarte extends Component {
           index: newIndex,
           swiperPos: -viewPort * newIndex
       })
+    } else {
+      this.swipeEndAnimation = requestAnimationFrame(this.moveEnde);
     }
   }
 
@@ -63,9 +67,13 @@ class Speisekarte extends Component {
         // This timeout will control the page adjustment on movement stop. It will be continuously cancelled until the movement stops
         clearTimeout(this.moveStopTimer);
         const timerMovement = movement-this.dragStartPos; // Pre calculated movement value to compare the relative movement
-        this.moveStopTimer = setTimeout(() => this.moveEnde(timerMovement, viewPort), 300);
+        this.moveStopTimer = setTimeout(this.checkDrag, 500);
+        this.timerMovement = timerMovement;
+        this.viewPort = viewPort;
+        if(!this.swipeEndAnimation) {
+          this.swipeEndAnimation = requestAnimationFrame(this.moveEnde);
+        }
 
-        this.swipeEndAnimation = requestAnimationFrame(() => this.moveEnde(timerMovement, viewPort));
 
         this.setState({
             movement: movement - this.dragStartPos
@@ -74,8 +82,10 @@ class Speisekarte extends Component {
         // Cancel movement is cursor leaves screen
         if(movement <= this.moveThreshold || verticalMovement <= this.moveThreshold ||
            movement >= viewPort - this.moveThreshold || verticalMovement >= viewPortHeight - this.moveThreshold) {
-            this.activateDrag = false;
+           this.activateDrag = false;
         }
+    } else {
+      this.activateDrag = false;
     }
   }
 
