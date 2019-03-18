@@ -8,8 +8,7 @@ class Page extends Component {
             <div className="page"
                  onMouseMove={this.props.onMove}
                  onTouchMove={this.props.onMove}
-                 onMouseDown={((evt) => this.props.
-                 onDragStart(true, evt))}
+                 onMouseDown={((evt) => this.props.onDragStart(true, evt))}
                  onTouchStart={((evt) => this.props.onDragStart(true, evt))}
                  onMouseUp={((evt) => this.props.onDragStart(false, evt))}
                  onTouchEnd={((evt) => this.props.onDragStart(false, evt))}

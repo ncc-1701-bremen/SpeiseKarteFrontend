@@ -92,6 +92,10 @@ class App extends Component {
       }
     }
 
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     this.genFunctions = {
       createComponent: this.createNewComponent,
       deleteComponent: this.deleteOldComponent,

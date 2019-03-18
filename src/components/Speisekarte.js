@@ -20,31 +20,36 @@ class Speisekarte extends Component {
 
   // On the swipe end the position is anchored accordingly to the index
   moveEnde = (realPos, viewPort) => {
-    setTimeout(() => {
-        let newIndex = this.state.index;
+    if(!this.activateDrag) {
+      cancelAnimationFrame(this.swipeEndAnimation);
+      let newIndex = this.state.index;
 
-        // Set the new index according to the relative movement
-        if(Math.abs(realPos) > viewPort/2) {
-            if(realPos > viewPort/2) {
-                newIndex--;
-            } else if(realPos < viewPort/2) {
-                newIndex++;
-            }
-        }
+      // Set the new index according to the relative movement
+      if(Math.abs(realPos) > viewPort/2) {
+          if(realPos > viewPort/2) {
+              newIndex--;
+          } else if(realPos < viewPort/2) {
+              newIndex++;
+          }
+      }
 
-        // Check if the index fits the corresponding pages array
-        if(newIndex < 0) {
-            newIndex = 0;
-        } else if (newIndex > this.props.data.pages.length-1) {
-            newIndex = this.props.data.pages.length-1;
-        }
+      // Check if the index fits the corresponding pages array
+      if(newIndex < 0) {
+          newIndex = 0;
+      } else if (newIndex > this.props.data.pages.length-1) {
+          newIndex = this.props.data.pages.length-1;
+      }
 
-        this.activateDrag = false
-        this.setState({
-            index: newIndex,
-            swiperPos: -viewPort * newIndex
-        })
-    }, 0)
+      this.activateDrag = false
+      this.setState({
+          index: newIndex,
+          swiperPos: -viewPort * newIndex
+      })
+    }
+  }
+
+  checkDrag = () => {
+    this.activateDrag = false;
   }
 
   // Handels swiper movement relative to starting position
@@ -59,6 +64,8 @@ class Speisekarte extends Component {
         clearTimeout(this.moveStopTimer);
         const timerMovement = movement-this.dragStartPos; // Pre calculated movement value to compare the relative movement
         this.moveStopTimer = setTimeout(() => this.moveEnde(timerMovement, viewPort), 300);
+
+        this.swipeEndAnimation = requestAnimationFrame(() => this.moveEnde(timerMovement, viewPort));
 
         this.setState({
             movement: movement - this.dragStartPos
