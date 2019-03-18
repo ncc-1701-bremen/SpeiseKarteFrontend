@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './../../assets/css/Preisliste.css';
 
 class Preisliste extends Component {
 
@@ -6,9 +7,14 @@ class Preisliste extends Component {
     return (
         <div>
           <h4>Preisliste</h4>
-          <ul>
-            <li>eins</li>
-            <li>zwei</li>
+          <ul className="pricelist">
+            {
+              this.props.componentData.data.products.map(product => {
+                return(
+                  <li>{product.name} <span>{product.price}€</span></li>
+                )
+              })
+            }
           </ul>
         </div>
     )

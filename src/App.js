@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import openSocket from 'socket.io-client';
 import Login from './components/Login.js';

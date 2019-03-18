@@ -1,0 +1,11 @@
+.pricelist {
+    padding: 20%;
+}
+
+.pricelist li {
+   
+}
+
+.pricelist li span {
+    float: right;
+}
