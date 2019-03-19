@@ -27,10 +27,10 @@ class Speisekarte extends Component {
       let newIndex = this.state.index;
 
       // Set the new index according to the relative movement
-      if(Math.abs(realPos) > viewPort/2) {
-          if(realPos > viewPort/2) {
+      if(Math.abs(realPos) > viewPort/3) {
+          if(realPos > viewPort/3) {
               newIndex--;
-          } else if(realPos < viewPort/2) {
+          } else if(realPos < viewPort/3) {
               newIndex++;
           }
       }
