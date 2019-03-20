@@ -5,9 +5,9 @@ class Preisliste extends Component {
 
   render() {
     return (
-        <div>
+        <div className="pricelist">
           <h4>Preisliste</h4>
-          <ul className="pricelist">
+          <ul>
             {
               this.props.componentData.data.products.map(product => {
                 return(
