@@ -8,7 +8,8 @@ class Speisekarte extends Component {
     this.state = {
         index: 0,
         swiperPos: 0,
-        movement: 0
+        movement: 0,
+        selectedComponent: false
     }
 
     this.activateDrag = false;
@@ -99,6 +100,15 @@ class Speisekarte extends Component {
       this.dragStartPos = evt.changedTouches ? evt.changedTouches[0].clientX : evt.clientX;
   }
 
+  selectComponent = (component, page) => {
+    this.setState({
+      selectedComponent: {
+        component: component,
+        page: page
+      }
+    })
+  }
+
   render() {
     let swiperPos = this.state.swiperPos + this.state.movement * Number(this.activateDrag);
     if(this.props.editingMode) {
@@ -112,12 +122,16 @@ class Speisekarte extends Component {
                       return(
                           <Page key={page} pageData={this.props.data.pageInfos[page]} editingMode={this.props.editingMode}
                                 page={page} genFunctions={this.props.genFunctions} swiperPos={swiperPos}
-                                onMove={this.move} onDragStart={this.lockToggle} setComponentDrag={this.setComponentDrag}/>
+                                onMove={this.move} onDragStart={this.lockToggle} setComponentDrag={this.setComponentDrag}
+                                selectComponent={this.selectComponent}/>
                       )
                   })
               }
           </div>
-          {this.props.editingMode && <Editor genFunctions={this.props.genFunctions} setComponentDrag={this.setComponentDrag}/>}
+          {this.props.editingMode && <Editor genFunctions={this.props.genFunctions}
+                                             setComponentDrag={this.setComponentDrag}
+                                             selectedComponent={this.state.selectedComponent}
+                                             componentData={this.state.selectedComponent &&  this.props.data.pageInfos[this.state.selectedComponent.page].componentInfos[this.state.selectedComponent.component]}/>}
       </div>
     )
   }

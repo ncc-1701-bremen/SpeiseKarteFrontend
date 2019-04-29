@@ -136,7 +136,7 @@ class App extends Component {
     }.bind(this));
   }
 
-  connectSocket = () => {
+  connectSocket = (user) => {
     this.socket = openSocket('http://localhost:5000');
     this.socket.on('connect', function(){
       this.socket.on('test', (data) => console.log(data))

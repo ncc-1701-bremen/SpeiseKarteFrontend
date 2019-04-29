@@ -20,7 +20,8 @@ class Page extends Component {
                          componentData={this.props.pageData.componentInfos}
                          editingMode={this.props.editingMode}
                          createComponent={this.props.genFunctions.createComponent}
-                         setComponentDrag={this.props.setComponentDrag}/>
+                         setComponentDrag={this.props.setComponentDrag}
+                         selectComponent={this.props.selectComponent}/>
             </div>
         )
     }

@@ -22,19 +22,39 @@ class Editor extends Component {
         event.preventDefault();
     }
 
+    // Iterate over component data and render it
+    renderEditingValues = (componentObj, subComponent) => {
+
+    }
+
+    // Select the value from nested object
+    selectValue = () => {
+
+    }
+
+    // On change event
+    onChange = () => {
+
+    }
+
     render() {
         return (
-            <div className="editor" onDrop={this.onDropTrig} onDragOver={this.preventDefault}>
-                {
-                    Object.keys(defaultComponents).map((component) => {
-                        return(
-                            <div id={"creating::"+component} className="editor-component" onDragStart={this.dragStart} draggable={true}>
-                                <p>{component}</p>
-                            </div>
-                        )
-                    })
-                }
-            </div>
+            (this.props.selectedComponent ?
+                <div className="editor">
+
+                </div>
+                :
+                <div className="editor" onDrop={this.onDropTrig} onDragOver={this.preventDefault}>
+                    {
+                        Object.keys(defaultComponents).map((component) => {
+                            return(
+                                <div key={component} id={"creating::"+component} className="editor-component" onDragStart={this.dragStart} draggable={true}>
+                                    <p>{component}</p>
+                                </div>
+                            )
+                        })
+                    }
+                </div>)
         )
     }
 }
