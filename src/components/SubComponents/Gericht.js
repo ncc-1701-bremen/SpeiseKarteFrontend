@@ -7,7 +7,13 @@ class Gericht extends Component {
     return (
       <div>
         <h4>Gericht</h4>
-      </div>
+        <ul>
+            {
+            <li>{gericht.name} <span>{gericht.price}€</span></li>
+              
+            }
+          </ul>
+        </div>
     )
   }
 }

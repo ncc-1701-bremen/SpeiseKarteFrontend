@@ -20,7 +20,7 @@ class App extends Component {
           page1: {
             headline: 'page1',
             sidePicture: true,
-            components: ['component1', 'component2'],
+            components: ['component1', 'component2','component3'],
             componentInfos: {
               component1: {
                 componentType: 'priceList',
@@ -48,6 +48,18 @@ class App extends Component {
                     width: 100
                   },
                   imgUri: 'exampleBase64'
+                }
+              },
+              component3: {
+                componentType: 'gericht',
+                data: {
+                  size: {
+                    height: 20,
+                    width: 100
+                  },
+                  name: 'food',
+                  price: 55,
+                  imgUri: false
                 }
               }
             }

@@ -36,7 +36,7 @@
       },
       "name": "food",
       "price": 55,
-      "imgUri": "exampleBase64"
+      "imgUri": false
     }
   }
 }
