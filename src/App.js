@@ -194,11 +194,22 @@ class App extends Component {
       }
   }
 
+  setComponentData = (page, component, newData) => {
+    const save = this.state.data;
+    save.pageInfos[page].componentInfos[component].data = newData;
+    this.setState({
+      data: save
+    })
+  }
+
   render() {
     return (
       <div>
         {this.state.loggedIn ?
-          <Speisekarte data={this.state.data} editingMode={this.state.editingMode} genFunctions={this.genFunctions}/>
+          <Speisekarte data={this.state.data}
+                       editingMode={this.state.editingMode}
+                       genFunctions={this.genFunctions}
+                       setComponentData={this.setComponentData}/>
           : <Login onAuth={this.onAuth}/>
         }
       </div>

@@ -23,25 +23,84 @@ class Editor extends Component {
     }
 
     // Iterate over component data and render it
-    renderEditingValues = (componentObj, subComponent) => {
+    renderEditingValues = (componentObj, subComponent, isParentArray = false) => {
+        const subComponentArray = subComponent.split('::');
+        let title = subComponentArray[subComponentArray.length-1];
+        // Capitalize the title
+        title = title.charAt(0).toUpperCase() + title.slice(1);
 
+        // Recursive iteration for objects
+        if (componentObj !== null && typeof componentObj === 'object') {
+            return(
+                <div key={title}>
+                    {!isParentArray && <h3>{title}</h3>}
+                    {
+                        Object.keys(componentObj).map(key => {
+                            return this.renderEditingValues(componentObj[key], `${subComponent}::${key}`, Array.isArray(componentObj));
+                        })
+                    }
+                </div>
+            )
+        } else {
+            return (
+                <label key={title}>
+                    {title}
+                    <input type='text' data-statemap={subComponent} value={this.selectValue(subComponent)} onChange={this.onChange}/>
+                </label>
+            )
+        }
     }
 
     // Select the value from nested object
-    selectValue = () => {
+    selectValue = (objectString) => {
+        let dataObject = this.props;
+        const mapArray = objectString.split('::');
 
+        if (typeof mapArray !== 'string') {
+            for (let key of mapArray) {
+                dataObject = dataObject[key];
+            }
+            return dataObject;
+        } else {
+            return dataObject[mapArray];
+        }
     }
 
     // On change event
-    onChange = () => {
+    onChange = (event) => {
+        const mapArray = event.target.dataset.statemap.split('::');
+        if (typeof mapArray !== 'string') {
+            let tempObj = this.props.componentData;
+            let tempNewObj = {};
+            const newComponentObject = tempNewObj;
 
+            // Dynamic recursive object update for unknown structured objects
+            for(let key of mapArray) {
+                if (typeof tempObj[key] === 'object' && typeof tempObj === 'object' && !Array.isArray(tempObj[key]) && !Array.isArray(tempObj)) {
+                    tempNewObj[key] = {
+                        ...tempObj[key]
+                    }
+                    tempNewObj = tempNewObj[key]
+                    tempObj = tempObj[key]
+                } else if (Array.isArray(tempObj[key]) || Array.isArray(tempObj)) {
+                    tempNewObj = tempNewObj[key]
+                    tempObj = tempObj[key]
+                } else {
+                    tempNewObj[key] = event.target.value;
+                }
+            }
+
+
+            const { page, component } = this.props.selectedComponent;
+            this.props.setComponentData(page, component, newComponentObject.data);
+        }
     }
 
     render() {
         return (
             (this.props.selectedComponent ?
                 <div className="editor">
-
+                    {this.renderEditingValues(this.props.componentData.data, 'componentData::data')}
                 </div>
                 :
                 <div className="editor" onDrop={this.onDropTrig} onDragOver={this.preventDefault}>

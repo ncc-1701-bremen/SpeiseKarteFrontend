@@ -131,6 +131,7 @@ class Speisekarte extends Component {
           {this.props.editingMode && <Editor genFunctions={this.props.genFunctions}
                                              setComponentDrag={this.setComponentDrag}
                                              selectedComponent={this.state.selectedComponent}
+                                             setComponentData={this.props.setComponentData}
                                              componentData={this.state.selectedComponent &&  this.props.data.pageInfos[this.state.selectedComponent.page].componentInfos[this.state.selectedComponent.component]}/>}
       </div>
     )
