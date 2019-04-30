@@ -9,3 +9,23 @@ label input {
 .editor .buttons {
   margin: 0 25%;
 }
+
+.editor .page-buttons {
+  position: absolute;
+  top: 0px;
+  margin-top: -3px;
+  margin-left: -80vw;
+}
+
+.editor .page-buttons button {
+  transition: 0.3s ease-in-out;
+}
+
+.editor .page-buttons button:hover {
+  background-color: black;
+  color: white; 
+}
+
+.page-buttons button:last-child {
+  border-bottom-right-radius: 10px;
+}

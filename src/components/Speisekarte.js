@@ -139,6 +139,7 @@ class Speisekarte extends Component {
                                              selectedComponent={this.state.selectedComponent}
                                              setComponentData={this.props.setComponentData}
                                              deselectComponent={this.deselectComponent}
+                                             genFunctions={this.props.genFunctions}
                                              componentData={this.state.selectedComponent &&  this.props.data.pageInfos[this.state.selectedComponent.page].componentInfos[this.state.selectedComponent.component]}/>}
       </div>
     )

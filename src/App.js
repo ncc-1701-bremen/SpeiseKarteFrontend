@@ -178,7 +178,7 @@ class App extends Component {
       const save = this.state.data;
       const lastPageNr = save.pages[save.pages.length-1].slice(-1);
       const newPageName = "page" + (Number(lastPageNr) + 1);
-      save.pageInfos.push(newPageName);
+      save.pages.push(newPageName);
       // TODO: Change to default Json page infos as default
       save.pageInfos[newPageName] = save.pageInfos.page1;
       this.setState({data: save});
