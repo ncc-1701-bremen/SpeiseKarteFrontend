@@ -109,6 +109,12 @@ class Speisekarte extends Component {
     })
   }
 
+  deselectComponent = () => {
+    this.setState({
+      selectedComponent: false
+    })
+  }
+
   render() {
     let swiperPos = this.state.swiperPos + this.state.movement * Number(this.activateDrag);
     if(this.props.editingMode) {
@@ -132,6 +138,7 @@ class Speisekarte extends Component {
                                              setComponentDrag={this.setComponentDrag}
                                              selectedComponent={this.state.selectedComponent}
                                              setComponentData={this.props.setComponentData}
+                                             deselectComponent={this.deselectComponent}
                                              componentData={this.state.selectedComponent &&  this.props.data.pageInfos[this.state.selectedComponent.page].componentInfos[this.state.selectedComponent.component]}/>}
       </div>
     )

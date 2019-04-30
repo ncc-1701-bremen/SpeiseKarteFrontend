@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import defaultComponents from './componentDefaults.json';
+import './../assets/css/Editor.css';
 
 class Editor extends Component {
     // Delete Components on drop
@@ -32,7 +33,7 @@ class Editor extends Component {
         // Recursive iteration for objects
         if (componentObj !== null && typeof componentObj === 'object') {
             return(
-                <div key={title}>
+                <div key={title} className="editor-div">
                     {!isParentArray && <h3>{title}</h3>}
                     {
                         Object.keys(componentObj).map(key => {
@@ -44,8 +45,7 @@ class Editor extends Component {
         } else {
             return (
                 <label key={title}>
-                    {title}
-                    <input type='text' data-statemap={subComponent} value={this.selectValue(subComponent)} onChange={this.onChange}/>
+                    {title}: <input type='text' data-statemap={subComponent} value={this.selectValue(subComponent)} onChange={this.onChange}/>
                 </label>
             )
         }
@@ -101,6 +101,10 @@ class Editor extends Component {
             (this.props.selectedComponent ?
                 <div className="editor">
                     {this.renderEditingValues(this.props.componentData.data, 'componentData::data')}
+                    <div className="buttons">
+                        <button onClick={this.props.deselectComponent}>Cancel</button>
+                        <button onClick={this.saveEditing}>Save</button>
+                    </div>
                 </div>
                 :
                 <div className="editor" onDrop={this.onDropTrig} onDragOver={this.preventDefault}>

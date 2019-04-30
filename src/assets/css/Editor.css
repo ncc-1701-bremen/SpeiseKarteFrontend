@@ -1,0 +1,11 @@
+.editor-div {
+  margin: 20px 5px;
+}
+
+label input {
+  float: right;
+}
+
+.editor .buttons {
+  margin: 0 25%;
+}
