@@ -109,10 +109,18 @@ class Speisekarte extends Component {
     })
   }
 
-  deselectComponent = () => {
-    this.setState({
+  deselectComponent = (deleted = false) => {
+    let stateObject = {
       selectedComponent: false
-    })
+    }
+
+    // If a page is deleted, change the swiper position
+    if(deleted) {
+      stateObject.index = this.state.index-1;
+      stateObject.swiperPos = this.state.swiperPos/this.state.index*stateObject.index;
+    }
+
+    this.setState(stateObject)
   }
 
   render() {

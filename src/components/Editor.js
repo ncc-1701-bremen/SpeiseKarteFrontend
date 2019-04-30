@@ -107,7 +107,7 @@ class Editor extends Component {
                     </div>
                     <div className="page-buttons">
                         <button onClick={this.props.genFunctions.createPage}>Add Page</button>
-                        <button onClick={() => {this.props.deselectComponent(); this.props.genFunctions.deletePage(this.props.selectedComponent.page)}}>Delete Page</button>
+                        <button onClick={() => {this.props.deselectComponent(true); this.props.genFunctions.deletePage(this.props.selectedComponent.page)}}>Delete Page</button>
                     </div>
                 </div>
                 :
