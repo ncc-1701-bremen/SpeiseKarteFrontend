@@ -120,7 +120,7 @@ class Speisekarte extends Component {
       stateObject.swiperPos = this.state.swiperPos/this.state.index*stateObject.index;
     }
 
-    this.setState(stateObject)
+    this.setState(stateObject);
   }
 
   render() {
@@ -148,6 +148,7 @@ class Speisekarte extends Component {
                                              setComponentData={this.props.setComponentData}
                                              deselectComponent={this.deselectComponent}
                                              genFunctions={this.props.genFunctions}
+                                             saveData={this.props.saveData}
                                              componentData={this.state.selectedComponent &&  this.props.data.pageInfos[this.state.selectedComponent.page].componentInfos[this.state.selectedComponent.component]}/>}
       </div>
     )

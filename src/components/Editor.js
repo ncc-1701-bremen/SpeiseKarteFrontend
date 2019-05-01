@@ -96,6 +96,11 @@ class Editor extends Component {
         }
     }
 
+    saveEditing = () => {
+        this.props.deselectComponent();
+        this.props.saveData();
+    }
+
     render() {
         return (
             (this.props.selectedComponent ?

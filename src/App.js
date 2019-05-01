@@ -12,83 +12,7 @@ class App extends Component {
     this.state = {
       loggedIn: this.getUrlParameters()[0] !== 'authenticate',
       editingMode: this.getUrlParameters()[2] === 'editor',
-      salt: "df78af8787h4jfmlkksd9s",
-      data: {
-        swipeTimer: 10,
-        pages: ['page1', 'page2'],
-        pageInfos: {
-          page1: {
-            headline: 'page1',
-            sidePicture: true,
-            components: ['component1', 'component2'],
-            componentInfos: {
-              component1: {
-                componentType: 'priceList',
-                data: {
-                  size: {
-                    height: 20,
-                    width: 100
-                  },
-                  products: [
-                    {
-                      name: 'burger',
-                      price: 10
-                    },
-                    {
-                      name: 'fries',
-                      price: 15
-                    }]
-                }
-              },
-              component2: {
-                componentType: 'image',
-                data: {
-                  size: {
-                    height: 20,
-                    width: 100
-                  },
-                  imgUri: 'exampleBase64'
-                }
-              }
-            }
-          },
-          page2: {
-            headline: 'page2',
-            sidePicture: true,
-            components: ['component1', 'component2'],
-            componentInfos: {
-              component1: {
-                componentType: 'priceList',
-                data: {
-                  size: {
-                    height: 20,
-                    width: 100
-                  },
-                  products: [
-                    {
-                      name: 'burger',
-                      price: 10
-                    },
-                    {
-                      name: 'fries',
-                      price: 15
-                    }]
-                }
-              },
-              component2: {
-                componentType: 'image',
-                data: {
-                  size: {
-                    height: 20,
-                    width: 100
-                  },
-                  imgUri: 'exampleBase64'
-                }
-              }
-            }
-          }
-        }
-      }
+      salt: "df78af8787h4jfmlkksd9s"
     }
 
     if ('scrollRestoration' in window.history) {
@@ -107,6 +31,25 @@ class App extends Component {
     const parameters = this.getUrlParameters();
     const namespace = parameters[1] ? parameters[1] : 'default';
 
+    const savedAuthToken = window.localStorage.getItem('authToken');
+    const saveData = window.localStorage.getItem('savedData');
+
+    if(saveData) {
+      this.setState({
+        data: JSON.parse(saveData)
+      });
+    }
+
+    // TODO: Get rid of multiple JSON parse commands
+    if(parameters[0] === 'authenticate' && this.validityCheck(JSON.parse(savedAuthToken))) {
+      this.authToken = JSON.parse(savedAuthToken);
+      this.setState({
+        loggedIn: true
+      });
+      // TODO: Currently hardcoded username has to be changed to be dynamic
+      this.authenticateSocket('default', null, JSON.parse(savedAuthToken));
+    }
+
     if(this.state.loggedIn) {
       if(parameters[0] !== 'public' && parameters[0] !== '') {
         console.warn("Did you want to use authentification? Please use /authenticate");
@@ -123,23 +66,47 @@ class App extends Component {
     return parameterArray;
   }
 
+  // Validity check for the authentification authToken
+  //  TODO: Create a validity check which works with different timeznes etc.
+  validityCheck = (token) => {
+    let valid = false;
+
+    if(token) {
+      const currentTime = new Date().getTime()/1000;
+
+      if (token.validity && token.validity > currentTime) {
+        valid = true;
+      }
+    }
+
+    return valid
+  }
+
   // Backend Connection functions
-  authenticateSocket = (user, password) => {
+  authenticateSocket = (user, password, token = null) => {
     this.socket = openSocket('http://localhost:5000/authenticate');
     this.socket.on('connect', function(){
-      this.socket.emit('authentication', {username: user, password: password});
-      this.socket.on('authenticated', function(data) {
-        console.log(data);
+      this.socket.emit('authentication', {username: user, password: password, token: token});
+      this.socket.on('authenticated', (data) => {
+        this.setState({
+          loggedIn: true
+        })
+        this.socket.on('newData', (data) => {
+          this.setNewData(data);
+        })
         // use the socket as usual
       });
-      this.socket.on('test', (data) => console.log(data))
+      this.socket.on('authToken', (data) => {
+        this.authToken = data;
+        window.localStorage.setItem('authToken', JSON.stringify(data));
+      })
     }.bind(this));
   }
 
   connectSocket = (user) => {
     this.socket = openSocket('http://localhost:5000');
     this.socket.on('connect', function(){
-      this.socket.on('test', (data) => console.log(data))
+      this.socket.on('newData', (data) => this.setNewData(data))
     }.bind(this));
   }
 
@@ -151,6 +118,21 @@ class App extends Component {
     const jsShaObj =  new jssha('SHA-256', 'TEXT');
     jsShaObj.update(this.state.salt + password);
     this.authenticateSocket(username, jsShaObj.getHash('HEX'));
+  }
+
+  // Send data to the server
+  // TODO: hardcoded username should be changed to dynamic
+  saveData = () => {
+    this.socket.emit('changeData', {
+      data: this.state.data, authToken: this.authToken, username: 'default'
+    });
+  }
+
+  setNewData = (data) => {
+    window.localStorage.setItem('savedData', JSON.stringify(data));
+    this.setState({
+      data: data
+    })
   }
 
   // Functions for creation and deletition of components and pages
@@ -206,10 +188,12 @@ class App extends Component {
     return (
       <div>
         {this.state.loggedIn ?
+          this.state.data &&
           <Speisekarte data={this.state.data}
                        editingMode={this.state.editingMode}
                        genFunctions={this.genFunctions}
-                       setComponentData={this.setComponentData}/>
+                       setComponentData={this.setComponentData}
+                       saveData={this.saveData}/>
           : <Login onAuth={this.onAuth}/>
         }
       </div>
