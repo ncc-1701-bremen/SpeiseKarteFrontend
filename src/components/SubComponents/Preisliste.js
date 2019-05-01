@@ -9,9 +9,9 @@ class Preisliste extends Component {
           <h4>Preisliste</h4>
           <ul>
             {
-              this.props.componentData.data.products.map(product => {
+              this.props.componentData.data.products.map((product, i) => {
                 return(
-                  <li>{product.name} <span>{product.price}€</span></li>
+                  <li key={product.name+i}>{product.name} <span>{product.price}€</span></li>
                 )
               })
             }
