@@ -12,7 +12,99 @@ class App extends Component {
     this.state = {
       loggedIn: this.getUrlParameters()[0] !== 'authenticate',
       editingMode: this.getUrlParameters()[2] === 'editor',
+<<<<<<< HEAD
       salt: "df78af8787h4jfmlkksd9s"
+=======
+      salt: "df78af8787h4jfmlkksd9s",
+      data: {
+        swipeTimer: 10,
+        pages: ['page1', 'page2'],
+        pageInfos: {
+          page1: {
+            headline: 'page1',
+            sidePicture: true,
+            components: ['component1', 'component2','component3'],
+            componentInfos: {
+              component1: {
+                componentType: 'priceList',
+                data: {
+                  size: {
+                    height: 20,
+                    width: 100
+                  },
+                  products: [
+                    {
+                      name: 'burger',
+                      price: 10
+                    },
+                    {
+                      name: 'fries',
+                      price: 15
+                    }]
+                }
+              },
+              component2: {
+                componentType: 'image',
+                data: {
+                  size: {
+                    height: 20,
+                    width: 100
+                  },
+                  imgUri: 'exampleBase64'
+                }
+              },
+              component3: {
+                componentType: 'gericht',
+                data: {
+                  size: {
+                    height: 20,
+                    width: 100
+                  },
+                  name: 'food',
+                  price: 55,
+                  imgUri: false
+                }
+              }
+            }
+          },
+          page2: {
+            headline: 'page2',
+            sidePicture: true,
+            components: ['component1', 'component2'],
+            componentInfos: {
+              component1: {
+                componentType: 'priceList',
+                data: {
+                  size: {
+                    height: 20,
+                    width: 100
+                  },
+                  products: [
+                    {
+                      name: 'burger',
+                      price: 10
+                    },
+                    {
+                      name: 'fries',
+                      price: 15
+                    }]
+                }
+              },
+              component2: {
+                componentType: 'image',
+                data: {
+                  size: {
+                    height: 20,
+                    width: 100
+                  },
+                  imgUri: 'exampleBase64'
+                }
+              }
+            }
+          }
+        }
+      }
+>>>>>>> with-change-interface
     }
 
     if ('scrollRestoration' in window.history) {

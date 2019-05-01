@@ -36,7 +36,25 @@
       },
       "name": "food",
       "price": 55,
-      "imgUri": "exampleBase64"
+      "imgUri": false
+    }
+  },
+  "Beschreibung": {
+    "componentType": "beschreibung",
+    "data": {
+      "size": {
+        "height": 20,
+        "width": 100
+      }
+    }
+  },
+  "Aktion": {
+    "componentType": "aktion",
+    "data": {
+      "size": {
+        "height": 20,
+        "width": 100
+      }
     }
   }
 }
