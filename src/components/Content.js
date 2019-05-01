@@ -35,7 +35,7 @@ class Content extends Component {
                     <div id={`existing::${this.props.page}::${component}`} className={"component" + (editingMode ? " edit" : "")}
                          style={{width: componentData.data.size.width + "%", height: componentData.data.size.height + "%"}}
                          draggable={editingMode} key={component} onDragStart={this.dragStart}
-                         onClick={editingMode && (() => this.props.selectComponent(component, this.props.page))}>
+                         onClick={editingMode ? (() => this.props.selectComponent(component, this.props.page)) : undefined}>
                         <CurrentComponent key={component} componentData={componentData}/>
                     </div>
                 )

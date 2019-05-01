@@ -46,15 +46,14 @@ class App extends Component {
       this.setState({
         loggedIn: true
       });
-      // TODO: Currently hardcoded username has to be changed to be dynamic
-      this.authenticateSocket('default', null, JSON.parse(savedAuthToken));
+      this.authenticateSocket(namespace, null, JSON.parse(savedAuthToken));
     }
 
     if(this.state.loggedIn) {
       if(parameters[0] !== 'public' && parameters[0] !== '') {
         console.warn("Did you want to use authentification? Please use /authenticate");
       }
-      this.connectSocket();
+      this.connectSocket(namespace);
     }
   }
 
@@ -106,6 +105,7 @@ class App extends Component {
   connectSocket = (user) => {
     this.socket = openSocket('http://localhost:5000');
     this.socket.on('connect', function(){
+      this.socket.emit('register', {username: user});
       this.socket.on('newData', (data) => this.setNewData(data))
     }.bind(this));
   }
@@ -121,10 +121,9 @@ class App extends Component {
   }
 
   // Send data to the server
-  // TODO: hardcoded username should be changed to dynamic
   saveData = () => {
     this.socket.emit('changeData', {
-      data: this.state.data, authToken: this.authToken, username: 'default'
+      data: this.state.data, authToken: this.authToken, username: this.getUrlParameters()[1]
     });
   }
 
