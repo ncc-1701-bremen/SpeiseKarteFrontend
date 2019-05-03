@@ -3,8 +3,8 @@ import Page from './Page';
 import Editor from './Editor';
 
 class Speisekarte extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
         index: 0,
         swiperPos: 0,
@@ -12,11 +12,15 @@ class Speisekarte extends Component {
         selectedComponent: false
     }
 
+    this.swipeInterval = null;
+    this.swipeTimeout = null
     this.activateDrag = false;
     this.moveStopTimer = undefined;
     this.dragStartPos = 0;
     this.moveThreshold = 10;
     this.componentDrag = false;
+
+    this.startAutoSwipe();
   }
 
   // On the swipe end the position is anchored accordingly to the index
@@ -98,6 +102,13 @@ class Speisekarte extends Component {
   lockToggle = (lockStatus, evt) => {
       this.activateDrag = lockStatus;
       this.dragStartPos = evt.changedTouches ? evt.changedTouches[0].clientX : evt.clientX;
+      if(lockStatus) {
+        clearInterval(this.swipeInterval);
+        clearTimeout(this.swipeTimeout);
+        this.swipeTimeout = setTimeout(() => {
+          this.startAutoSwipe();
+        }, 60*1000)
+      }
   }
 
   selectComponent = (component, page) => {
@@ -121,6 +132,24 @@ class Speisekarte extends Component {
     }
 
     this.setState(stateObject);
+  }
+
+  startAutoSwipe = () => {
+    if(!this.props.editingMode) {
+      this.swipeInterval = setInterval(() => {
+        const stateObject = {};
+        if(this.state.index+1 < this.props.data.pages.length) {
+          const viewPort = Math.max(document.documentElement.clientWidth, window.innerWidth) || 0;
+          stateObject.index = this.state.index+1;
+          stateObject.swiperPos = -viewPort*stateObject.index;
+        } else {
+          stateObject.index = 0;
+          stateObject.swiperPos = 0;
+        }
+
+        this.setState(stateObject)
+      }, this.props.data.swipeTimer*1000)
+    }
   }
 
   render() {
