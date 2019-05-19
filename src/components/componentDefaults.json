@@ -3,13 +3,37 @@
     "componentType": "priceList",
     "data": {
       "size": {
-        "height": 20,
+        "height": 35,
         "width": 100
       },
       "products": [
         {
           "name": "burger",
           "price": 10
+        },
+        {
+          "name": "fries",
+          "price": 15
+        },
+        {
+          "name": "fries",
+          "price": 15
+        },
+        {
+          "name": "fries",
+          "price": 15
+        },
+        {
+          "name": "fries",
+          "price": 15
+        },
+        {
+          "name": "fries",
+          "price": 15
+        },
+        {
+          "name": "fries",
+          "price": 15
         },
         {
           "name": "fries",

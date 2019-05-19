@@ -11,16 +11,12 @@ class Login extends Component {
     }
   }
 
+  // On change event, to update the query when the user uses the input field
   handleChange = (event) => {
     const {name, value} = event.target;
     this.setState({
       [name]: value
     })
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state);
   }
 
   render() {

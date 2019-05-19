@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import '../../assets/css/Image.css';
 
 class Image extends Component {
 
     render() {
-        console.log(this.props)
         return (
             <div className="image">
-                <img src={this.props.componentData.data.imgUri} height="150" width="200"></img>
+                <img src={this.props.componentData.data.imgUri}></img>
             </div>
         )
     }

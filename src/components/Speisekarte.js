@@ -79,7 +79,7 @@ class Speisekarte extends Component {
           this.swipeEndAnimation = requestAnimationFrame(this.moveEnde);
         }
 
-
+        // On move, update the current position constantly to reflect the swiper position in the dom
         this.setState({
             movement: movement - this.dragStartPos
         })
@@ -90,10 +90,12 @@ class Speisekarte extends Component {
            this.activateDrag = false;
         }
     } else {
+      // If the move event is triggered during an component drag in the ditor, set the drag status to false
       this.activateDrag = false;
     }
   }
 
+  // Setetr for the component drag variable, which indicates if an component is dragged
   setComponentDrag = (state) => {
       this.componentDrag = state;
   }
@@ -102,6 +104,8 @@ class Speisekarte extends Component {
   lockToggle = (lockStatus, evt) => {
       this.activateDrag = lockStatus;
       this.dragStartPos = evt.changedTouches ? evt.changedTouches[0].clientX : evt.clientX;
+
+      // Deactivatet he auto swiper on an user interaction for 60 seconds
       if(lockStatus) {
         clearInterval(this.swipeInterval);
         clearTimeout(this.swipeTimeout);
@@ -111,6 +115,7 @@ class Speisekarte extends Component {
       }
   }
 
+  // In the Editor, when a component is clicked, select it to edit the values in the editor
   selectComponent = (component, page) => {
     this.setState({
       selectedComponent: {
@@ -120,6 +125,7 @@ class Speisekarte extends Component {
     })
   }
 
+  // Reset Component selection
   deselectComponent = (deleted = false) => {
     let stateObject = {
       selectedComponent: false
@@ -134,6 +140,7 @@ class Speisekarte extends Component {
     this.setState(stateObject);
   }
 
+  // Auto swipe function which will swipe through the page automatically
   startAutoSwipe = () => {
     if(!this.props.editingMode) {
       this.swipeInterval = setInterval(() => {

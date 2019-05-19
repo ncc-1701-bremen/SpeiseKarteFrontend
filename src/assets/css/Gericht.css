@@ -1,8 +1,10 @@
 .gericht {
-    padding: 2px 10px;
+    padding: 40px 10px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.gericht h4 {
-    color: blue;
+.gericht p {
+  margin: 20px;
+  font-family: 'Bad Script';
 }
-

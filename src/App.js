@@ -81,7 +81,7 @@ class App extends Component {
     return valid
   }
 
-  // Backend Connection functions
+  // On an login, use the private socket network instead and register the socket.io listeners for the possible user actions
   authenticateSocket = (user, password, token = null) => {
     this.socket = openSocket('http://localhost:5000/authenticate');
     this.socket.on('connect', function(){
@@ -102,6 +102,7 @@ class App extends Component {
     }.bind(this));
   }
 
+  // This is the default socket connection for the public socket network, to retrieve data from the backend
   connectSocket = (user) => {
     this.socket = openSocket('http://localhost:5000');
     this.socket.on('connect', function(){
@@ -127,6 +128,7 @@ class App extends Component {
     });
   }
 
+  // When the applications receives data updates from the Backend update them in the state and the local storage
   setNewData = (data) => {
     window.localStorage.setItem('savedData', JSON.stringify(data));
     this.setState({

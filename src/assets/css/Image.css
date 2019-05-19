@@ -1,0 +1,14 @@
+.image {
+  width: fit-content;
+  margin: auto;
+  height: 100%;
+}
+
+.image img {
+  width: auto;
+  height: auto;
+  max-height: 100%;
+  padding: 0;
+  margin: 0;
+  vertical-align: middle;
+}

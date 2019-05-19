@@ -5,16 +5,12 @@ class Gericht extends Component {
 
   render() {
 
-    console.log(this.props)
     return (
       <div className="gericht">
-        <h4>Gericht</h4>
-        <ul>
-          {this.props.componentData.data.name} {this.props.componentData.data.price}€
-          <img src={this.props.componentData.data.imgUri} height="100" width="150"></img>
-        </ul>
+        <p>{this.props.componentData.data.name} {this.props.componentData.data.price}€</p>
+        <img src={this.props.componentData.data.imgUri} height="100" width="150"></img>
       </div>
-      
+
     )
   }
 }
